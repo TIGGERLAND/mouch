@@ -31,34 +31,37 @@
 
     <script>
         const modelViewer = document.querySelector('#mouchModel');
-        let initialTouches = [];
-        let initialRotation = { theta: 0, phi: 0 };
+        let lastTouches = [];
+        let lastRotation = { theta: 0, phi: 0 };
 
         modelViewer.addEventListener('touchstart', (event) => {
-            initialTouches = Array.from(event.touches);
-            initialRotation.theta = modelViewer.getCameraOrbit().theta.deg;
-            initialRotation.phi = modelViewer.getCameraOrbit().phi.deg;
+            lastTouches = event.touches;
+            if (lastTouches.length === 1) {
+                const cameraOrbit = modelViewer.getCameraOrbit();
+                lastRotation.theta = cameraOrbit.theta.deg;
+                lastRotation.phi = cameraOrbit.phi.deg;
+            }
         });
 
         modelViewer.addEventListener('touchmove', (event) => {
-            if (initialTouches.length === 1 && event.touches.length === 1) {
+            if (lastTouches.length === 1 && event.touches.length === 1) {
                 // Single finger rotation
-                const deltaX = event.touches[0].clientX - initialTouches[0].clientX;
-                const deltaY = event.touches[0].clientY - initialTouches[0].clientY;
+                const deltaX = event.touches[0].clientX - lastTouches[0].clientX;
+                const deltaY = event.touches[0].clientY - lastTouches[0].clientY;
                 const turnSpeed = 0.2;
-                modelViewer.cameraOrbit = `${initialRotation.theta + deltaX * turnSpeed}deg ${initialRotation.phi + deltaY * turnSpeed}deg ${modelViewer.getCameraOrbit().radius}`;
-            } else if (initialTouches.length === 2 && event.touches.length === 2) {
+                modelViewer.cameraOrbit = `${lastRotation.theta + deltaX * turnSpeed}deg ${lastRotation.phi + deltaY * turnSpeed}deg ${modelViewer.getCameraOrbit().radius}`;
+            } else if (lastTouches.length === 2 && event.touches.length === 2) {
                 // Double finger movement
-                const deltaX = (event.touches[0].clientX + event.touches[1].clientX) / 2 - (initialTouches[0].clientX + initialTouches[1].clientX) / 2;
-                const deltaY = (event.touches[0].clientY + event.touches[1].clientY) / 2 - (initialTouches[0].clientY + initialTouches[1].clientY) / 2;
+                const deltaX = (event.touches[0].clientX + event.touches[1].clientX) / 2 - (lastTouches[0].clientX + lastTouches[1].clientX) / 2;
+                const deltaY = (event.touches[0].clientY + event.touches[1].clientY) / 2 - (lastTouches[0].clientY + lastTouches[1].clientY) / 2;
                 const moveSpeed = 0.005;
                 modelViewer.position = `${modelViewer.position.x + deltaX * moveSpeed}m ${modelViewer.position.y}m ${modelViewer.position.z + deltaY * moveSpeed}m`;
             }
-            initialTouches = Array.from(event.touches);
+            lastTouches = event.touches;
         });
 
         modelViewer.addEventListener('touchend', () => {
-            initialTouches = [];
+            lastTouches = [];
         });
     </script>
 </body>
