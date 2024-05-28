@@ -30,6 +30,7 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+            z-index: 1;
         }
         #models {
             display: flex;
@@ -64,23 +65,18 @@
     </section>
 
     <script>
+        const modelViewer = document.querySelector('#mouchModel');
+
         document.getElementById('addModelButton').addEventListener('click', () => {
-            const modelContainer = document.getElementById('models');
-            const newModel = document.createElement('model-viewer');
-            newModel.src = 'mouch.glb';
-            newModel.setAttribute('ios-src', 'mouch.usdz');
-            newModel.alt = 'A 3D model of a fly';
-            newModel.autoRotate = true;
-            newModel.cameraControls = true;
-            newModel.setAttribute('ar', '');
-            newModel.setAttribute('ar-modes', 'scene-viewer webxr quick-look');
-            newModel.setAttribute('shadow-intensity', '1');
-            newModel.setAttribute('shadow-softness', '0.5');
-            newModel.setAttribute('environment-image', 'neutral');
-            newModel.style.transform = 'translateY(-10px)';
-            newModel.style.width = '300px';
-            newModel.style.height = '300px';
-            modelContainer.appendChild(newModel);
+            // Create a clone of the existing model-viewer element
+            const newModel = modelViewer.cloneNode(true);
+            newModel.removeAttribute('id'); // Remove the ID to avoid duplicates
+
+            // Append the new model to the body
+            document.body.appendChild(newModel);
+
+            // Activate AR mode for the new model
+            newModel.activateAR();
         });
     </script>
 </body>
