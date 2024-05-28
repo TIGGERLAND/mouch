@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow">
-    <title>rocket</title>
+    <title>Floating AR Model</title>
     <link rel="stylesheet" href="style.css">
     <!-- Import the component -->
-    <script
-      type="module"
-      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
-    ></script>
-    <script
-      nomodule
-      src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
-    ></script>
-  </head>
-  <body>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+</head>
+<body>
     <section>
-      <h1>Rocket</h1>
-      <model-viewer
-        src="rocket.glb"
-        ios-src="rocket.usdz"
-        alt="A 3D model rocket"
-        auto-rotate
-        camera-controls
-        ar
-      ></model-viewer>
+        <h1>Floating AR Model</h1>
+        <model-viewer
+            src="mouch.glb"
+            ios-src="mouch.usdz"
+            alt="A 3D floating model"
+            auto-rotate
+            camera-controls
+            ar
+            ar-modes="scene-viewer webxr quick-look"
+            animation-name="floating"
+        ></model-viewer>
     </section>
-  </body>
+</body>
 </html>
