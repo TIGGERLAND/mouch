@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow">
-    <title>Floating AR Model with Shadow</title>
+    <title>Interactive AR Model</title>
     <link rel="stylesheet" href="style.css">
     <!-- Import the component -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
@@ -12,11 +12,12 @@
 </head>
 <body>
     <section>
-        <h1>Floating AR Model with Shadow</h1>
+        <h1>Interactive AR Model</h1>
         <model-viewer
+            id="mouchModel"
             src="mouch.glb"
             ios-src="mouch.usdz"
-            alt="A 3D model with shadow"
+            alt="A 3D model of a fly"
             auto-rotate
             camera-controls
             ar
@@ -27,5 +28,35 @@
             style="transform: translateY(-10px);"
         ></model-viewer>
     </section>
+
+    <script>
+        const modelViewer = document.querySelector('#mouchModel');
+        let lastTouches = [];
+
+        modelViewer.addEventListener('touchstart', (event) => {
+            lastTouches = event.touches;
+        });
+
+        modelViewer.addEventListener('touchmove', (event) => {
+            if (lastTouches.length === 1 && event.touches.length === 1) {
+                // Single finger rotation
+                const deltaX = event.touches[0].clientX - lastTouches[0].clientX;
+                const deltaY = event.touches[0].clientY - lastTouches[0].clientY;
+                const turnSpeed = 0.1;
+                modelViewer.cameraOrbit = `${modelViewer.cameraOrbit.theta + deltaX * turnSpeed}deg ${modelViewer.cameraOrbit.phi + deltaY * turnSpeed}deg ${modelViewer.cameraOrbit.radius}`;
+            } else if (lastTouches.length === 2 && event.touches.length === 2) {
+                // Double finger movement
+                const deltaX = (event.touches[0].clientX + event.touches[1].clientX) / 2 - (lastTouches[0].clientX + lastTouches[1].clientX) / 2;
+                const deltaY = (event.touches[0].clientY + event.touches[1].clientY) / 2 - (lastTouches[0].clientY + lastTouches[1].clientY) / 2;
+                const moveSpeed = 0.005;
+                modelViewer.pan(deltaX * moveSpeed, -deltaY * moveSpeed);
+            }
+            lastTouches = event.touches;
+        });
+
+        modelViewer.addEventListener('touchend', () => {
+            lastTouches = [];
+        });
+    </script>
 </body>
 </html>
