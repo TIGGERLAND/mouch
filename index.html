@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow">
-    <title>Interactive AR Model</title>
+    <title>Interactive AR Model with Add Button</title>
     <link rel="stylesheet" href="style.css">
     <!-- Import the component -->
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
@@ -17,37 +17,50 @@
             justify-content: center;
             height: 100vh;
             margin: 0;
+            background: #836EF9;
+        }
+        #addModelButton {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
         }
         #models {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
         }
         model-viewer {
             margin: 10px;
+            width: 300px;
+            height: 300px;
         }
     </style>
 </head>
 <body>
-    <section>
-        <h1>Interactive AR Model</h1>
-        <button id="addModelButton">Add Model</button>
-        <div id="models">
-            <model-viewer
-                id="mouchModel"
-                src="mouch.glb"
-                ios-src="mouch.usdz"
-                alt="A 3D model of a fly"
-                auto-rotate
-                camera-controls
-                ar
-                ar-modes="scene-viewer webxr quick-look"
-                shadow-intensity="1"
-                shadow-softness="0.5"
-                environment-image="neutral"
-                style="transform: translateY(-10px);"
-            ></model-viewer>
-        </div>
+    <button id="addModelButton">Add Model</button>
+    <section id="models">
+        <model-viewer
+            id="mouchModel"
+            src="mouch.glb"
+            ios-src="mouch.usdz"
+            alt="A 3D model of a fly"
+            auto-rotate
+            camera-controls
+            ar
+            ar-modes="scene-viewer webxr quick-look"
+            shadow-intensity="1"
+            shadow-softness="0.5"
+            environment-image="neutral"
+            style="transform: translateY(-10px);"
+        ></model-viewer>
     </section>
 
     <script>
@@ -55,16 +68,18 @@
             const modelContainer = document.getElementById('models');
             const newModel = document.createElement('model-viewer');
             newModel.src = 'mouch.glb';
-            newModel.iosSrc = 'mouch.usdz';
+            newModel.setAttribute('ios-src', 'mouch.usdz');
             newModel.alt = 'A 3D model of a fly';
             newModel.autoRotate = true;
             newModel.cameraControls = true;
-            newModel.ar = true;
+            newModel.setAttribute('ar', '');
             newModel.setAttribute('ar-modes', 'scene-viewer webxr quick-look');
             newModel.setAttribute('shadow-intensity', '1');
             newModel.setAttribute('shadow-softness', '0.5');
             newModel.setAttribute('environment-image', 'neutral');
             newModel.style.transform = 'translateY(-10px)';
+            newModel.style.width = '300px';
+            newModel.style.height = '300px';
             modelContainer.appendChild(newModel);
         });
     </script>
