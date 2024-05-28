@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow">
-    <title>rocket</title>
+    <title>Rocket</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Import the component -->
     <script
       type="module"
       src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
@@ -15,90 +14,67 @@
       nomodule
       src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
     ></script>
-</head>
-<body>
-    <div id="setupScreen">
-        <h1>Rocket</h1>
-        <button id="startARButton">Start AR</button>
-    </div>
-    <div id="arScreen" style="display: none;">
-        <video class="input_video"></video>
-        <button id="addModelButton">Add Model</button>
-        <div id="modelContainer"></div>
-        <div class="user-guide">
-            <p>Use single finger gestures to rotate the object. Use double finger gestures to move it.</p>
-        </div>
-    </div>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 24px;
+        background: #4dc9ff;
+      }
+      h1 {
+        width: 100%;
+        font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'ヒラギノ角ゴ ProN W3', Arial, 'メイリオ', Meiryo, sans-serif;
+        text-align: center;
+      }
+      #addModelBtn {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <h1>Rocket</h1>
+      <div id="modelContainer"></div>
+      <button id="addModelBtn">Add Model</button>
+    </section>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const setupScreen = document.getElementById('setupScreen');
-            const arScreen = document.getElementById('arScreen');
-            const modelContainer = document.getElementById('modelContainer');
-            const startARButton = document.getElementById('startARButton');
-            const addModelButton = document.getElementById('addModelButton');
+      document.addEventListener('DOMContentLoaded', () => {
+        const modelContainer = document.getElementById('modelContainer');
+        const addModelBtn = document.getElementById('addModelBtn');
 
-            startARButton.addEventListener('click', () => {
-                setupScreen.style.display = 'none';
-                arScreen.style.display = 'block';
-                // Add initial 10 models
-                for (let i = 0; i < 10; i++) {
-                    addModel();
-                }
-                setupCamera();
-            });
+        const createModel = () => {
+          const modelViewer = document.createElement('model-viewer');
+          modelViewer.src = 'mouch.glb';
+          modelViewer.alt = 'A 3D model of a fly';
+          modelViewer.setAttribute('auto-rotate', '');
+          modelViewer.setAttribute('camera-controls', '');
+          modelViewer.setAttribute('ar', '');
+          modelViewer.style.width = '300px';
+          modelViewer.style.height = '300px';
+          modelContainer.appendChild(modelViewer);
+        };
 
-            addModelButton.addEventListener('click', addModel);
+        // Add initial 10 models
+        for (let i = 0; i < 10; i++) {
+          createModel();
+        }
 
-            function addModel() {
-                const modelViewer = document.createElement('model-viewer');
-                modelViewer.setAttribute('src', 'mouch.glb');
-                modelViewer.setAttribute('alt', 'A 3D model of a fly');
-                modelViewer.setAttribute('auto-rotate', '');
-                modelViewer.setAttribute('camera-controls', '');
-                modelViewer.setAttribute('ar', '');
-                modelContainer.appendChild(modelViewer);
-            }
-
-            let useFrontCamera = true;
-            let camera;
-
-            const videoElement = document.getElementsByClassName('input_video')[0];
-            videoElement.style.display = "none";
-
-            function setupCamera() {
-                if (camera) {
-                    camera.stop();
-                }
-                camera = new Camera(videoElement, {
-                    onFrame: async () => {
-                        // Handle AR processing if needed
-                    },
-                    width: 1280,
-                    height: 720,
-                    facingMode: useFrontCamera ? 'user' : 'environment'
-                });
-                camera.start();
-            }
-
-            document.getElementById('switch-camera').addEventListener('click', () => {
-                useFrontCamera = !useFrontCamera;
-                setupCamera();
-            });
-
-            function setup() {
-                createCanvas(windowWidth, windowHeight);
-            }
-
-            function draw() {
-                clear();
-                background("rgba(100, 100, 255, 0.2)");
-                // AR drawing logic
-            }
-
-            function windowResized() {
-                resizeCanvas(windowWidth, windowHeight);
-            }
-        });
+        // Add a new model on button click
+        addModelBtn.addEventListener('click', createModel);
+      });
     </script>
-</body>
+  </body>
 </html>
