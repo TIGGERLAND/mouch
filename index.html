@@ -4,58 +4,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow">
-    <title>Interactive AR Model with Multiple Mouches</title>
+    <title>rocket</title>
     <link rel="stylesheet" href="style.css">
     <!-- Import the component -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
+    ></script>
 </head>
 <body>
-    <button id="addModelButton" style="display: none;">Add Model</button>
-    <model-viewer
-        id="mouchModel"
-        src="mouch.glb"
-        ios-src="mouch.usdz"
-        alt="A 3D model of a fly"
-        auto-rotate
-        camera-controls
-        ar
-        ar-modes="scene-viewer webxr quick-look"
-        shadow-intensity="1"
-        shadow-softness="0.5"
-        environment-image="neutral"
-        style="transform: translateY(-10px);"
-    ></model-viewer>
-
+    <section>
+        <h1>Rocket</h1>
+        <div id="modelContainer"></div>
+        <button id="addModelButton">Add Model</button>
+        <div class="user-guide">
+            <p>Use single finger gestures to rotate the object. Use double finger gestures to move it.</p>
+        </div>
+    </section>
     <script>
-        const modelViewer = document.querySelector('#mouchModel');
-        const addModelButton = document.getElementById('addModelButton');
+        document.addEventListener('DOMContentLoaded', function() {
+            const modelContainer = document.getElementById('modelContainer');
+            const addModelButton = document.getElementById('addModelButton');
 
-        modelViewer.addEventListener('ar-status', (event) => {
-            if (event.detail.status === 'session-started') {
-                addModelButton.style.display = 'block';
-            } else if (event.detail.status === 'session-ended') {
-                addModelButton.style.display = 'none';
+            addModelButton.addEventListener('click', () => {
+                const modelViewer = document.createElement('model-viewer');
+                modelViewer.setAttribute('src', 'mouch.glb');
+                modelViewer.setAttribute('alt', 'A 3D model of a fly');
+                modelViewer.setAttribute('auto-rotate', '');
+                modelViewer.setAttribute('camera-controls', '');
+                modelViewer.setAttribute('ar', '');
+                modelContainer.appendChild(modelViewer);
+            });
+
+            // Add initial 10 models
+            for (let i = 0; i < 10; i++) {
+                addModelButton.click();
             }
-        });
-
-        addModelButton.addEventListener('click', () => {
-            const newModel = document.createElement('model-viewer');
-            newModel.src = 'mouch.glb';
-            newModel.setAttribute('ios-src', 'mouch.usdz');
-            newModel.alt = 'A 3D model of a fly';
-            newModel.autoRotate = true;
-            newModel.cameraControls = true;
-            newModel.setAttribute('ar', '');
-            newModel.setAttribute('ar-modes', 'scene-viewer webxr quick-look');
-            newModel.setAttribute('shadow-intensity', '1');
-            newModel.setAttribute('shadow-softness', '0.5');
-            newModel.setAttribute('environment-image', 'neutral');
-            newModel.style.transform = 'translateY(-10px)';
-            newModel.style.width = '300px';
-            newModel.style.height = '300px';
-            document.body.appendChild(newModel);
-            newModel.activateAR();
         });
     </script>
 </body>
