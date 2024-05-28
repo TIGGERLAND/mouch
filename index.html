@@ -31,37 +31,34 @@
 
     <script>
         const modelViewer = document.querySelector('#mouchModel');
-        let lastTouches = [];
-        let lastRotation = { theta: 0, phi: 0 };
+        let isDoubleTouch = false;
+        let lastTouchPositions = [];
 
         modelViewer.addEventListener('touchstart', (event) => {
-            lastTouches = event.touches;
-            if (lastTouches.length === 1) {
-                const cameraOrbit = modelViewer.getCameraOrbit();
-                lastRotation.theta = cameraOrbit.theta.deg;
-                lastRotation.phi = cameraOrbit.phi.deg;
+            if (event.touches.length === 2) {
+                isDoubleTouch = true;
+                lastTouchPositions = Array.from(event.touches).map(touch => ({ x: touch.clientX, y: touch.clientY }));
+            } else {
+                isDoubleTouch = false;
             }
         });
 
         modelViewer.addEventListener('touchmove', (event) => {
-            if (lastTouches.length === 1 && event.touches.length === 1) {
-                // Single finger rotation
-                const deltaX = event.touches[0].clientX - lastTouches[0].clientX;
-                const deltaY = event.touches[0].clientY - lastTouches[0].clientY;
-                const turnSpeed = 0.2;
-                modelViewer.cameraOrbit = `${lastRotation.theta + deltaX * turnSpeed}deg ${lastRotation.phi + deltaY * turnSpeed}deg ${modelViewer.getCameraOrbit().radius}`;
-            } else if (lastTouches.length === 2 && event.touches.length === 2) {
-                // Double finger movement
-                const deltaX = (event.touches[0].clientX + event.touches[1].clientX) / 2 - (lastTouches[0].clientX + lastTouches[1].clientX) / 2;
-                const deltaY = (event.touches[0].clientY + event.touches[1].clientY) / 2 - (lastTouches[0].clientY + lastTouches[1].clientY) / 2;
-                const moveSpeed = 0.005;
-                modelViewer.position = `${modelViewer.position.x + deltaX * moveSpeed}m ${modelViewer.position.y}m ${modelViewer.position.z + deltaY * moveSpeed}m`;
+            if (isDoubleTouch && event.touches.length === 2) {
+                const currentTouchPositions = Array.from(event.touches).map(touch => ({ x: touch.clientX, y: touch.clientY }));
+                const deltaX = (currentTouchPositions[0].x + currentTouchPositions[1].x) / 2 - (lastTouchPositions[0].x + lastTouchPositions[1].x) / 2;
+                const deltaY = (currentTouchPositions[0].y + currentTouchPositions[1].y) / 2 - (lastTouchPositions[0].y + lastTouchPositions[1].y) / 2;
+                const moveSpeed = 0.01; // Adjust the move speed as needed
+                modelViewer.cameraOrbit = `${modelViewer.cameraOrbit.theta}deg ${modelViewer.cameraOrbit.phi}deg ${modelViewer.cameraOrbit.radius}`;
+                modelViewer.cameraTarget = `${parseFloat(modelViewer.cameraTarget.x) + deltaX * moveSpeed}m ${parseFloat(modelViewer.cameraTarget.y) - deltaY * moveSpeed}m ${modelViewer.cameraTarget.z}m`;
+                lastTouchPositions = currentTouchPositions;
             }
-            lastTouches = event.touches;
         });
 
-        modelViewer.addEventListener('touchend', () => {
-            lastTouches = [];
+        modelViewer.addEventListener('touchend', (event) => {
+            if (event.touches.length < 2) {
+                isDoubleTouch = false;
+            }
         });
     </script>
 </body>
