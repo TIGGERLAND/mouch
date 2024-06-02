@@ -11,7 +11,7 @@ model-viewer {
     margin-top: 20px;
 }
 
-#shutter-button {
+button {
     background-color: #4CAF50; /* 緑色 */
     border: none;
     color: white;
@@ -25,6 +25,11 @@ model-viewer {
     border-radius: 8px;
 }
 
-#shutter-button:hover {
+button:hover {
     background-color: #45a049; /* マウスオーバー時の色 */
+}
+
+button:disabled {
+    background-color: #cccccc; /* 無効化時の色 */
+    cursor: not-allowed;
 }
