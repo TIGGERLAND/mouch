@@ -21,15 +21,13 @@
     </model-viewer>
     
     <button id="shutter-button">写真を撮る</button>
-    <button id="record-button">録画開始</button>
-    <button id="stop-button" disabled>録画停止</button>
+    <button id="record-button">長押しで録画</button>
     
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script>
         const viewer = document.getElementById('ar-viewer');
         const shutterButton = document.getElementById('shutter-button');
         const recordButton = document.getElementById('record-button');
-        const stopButton = document.getElementById('stop-button');
         let mediaRecorder;
         let chunks = [];
 
@@ -42,7 +40,7 @@
             });
         });
 
-        recordButton.addEventListener('click', () => {
+        recordButton.addEventListener('mousedown', () => {
             const stream = viewer.captureStream();
             mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
             mediaRecorder.ondataavailable = event => {
@@ -61,14 +59,19 @@
                 URL.revokeObjectURL(url);
             };
             mediaRecorder.start();
-            recordButton.disabled = true;
-            stopButton.disabled = false;
+            recordButton.textContent = '録画中...';
         });
 
-        stopButton.addEventListener('click', () => {
+        recordButton.addEventListener('mouseup', () => {
             mediaRecorder.stop();
-            recordButton.disabled = false;
-            stopButton.disabled = true;
+            recordButton.textContent = '長押しで録画';
+        });
+
+        recordButton.addEventListener('mouseleave', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                recordButton.textContent = '長押しで録画';
+            }
         });
     </script>
 </body>
