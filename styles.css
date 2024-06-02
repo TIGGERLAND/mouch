@@ -1,6 +1,7 @@
 body {
     background-color: #836EF9;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -8,11 +9,21 @@ body {
 }
 
 h1 {
-    width: 100%;
-    text-align: center;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px; /* Adjust the size as needed */
+}
+
+#mouch-image {
+    width: 24px; /* Match the font-size of h1 */
+    height: 24px; /* Match the font-size of h1 */
+    margin-left: 8px; /* Space between text and image */
 }
 
 model-viewer {
     width: 100%;
     height: calc(100vh - 50px); /* Header height consideration */
+    max-width: 600px; /* Limit the width for better mobile view */
 }
