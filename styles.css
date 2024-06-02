@@ -1,35 +1,18 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+    background-color: #836EF9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
     margin: 0;
-    padding: 0;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
 }
 
 model-viewer {
     width: 100%;
-    height: 80vh;
-    margin-top: 20px;
-}
-
-button {
-    background-color: #4CAF50; /* 緑色 */
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 20px 2px;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-button:hover {
-    background-color: #45a049; /* マウスオーバー時の色 */
-}
-
-button:disabled {
-    background-color: #cccccc; /* 無効化時の色 */
-    cursor: not-allowed;
+    height: calc(100vh - 50px); /* Header height consideration */
 }
