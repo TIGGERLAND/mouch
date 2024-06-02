@@ -21,19 +21,54 @@
     </model-viewer>
     
     <button id="shutter-button">写真を撮る</button>
+    <button id="record-button">録画開始</button>
+    <button id="stop-button" disabled>録画停止</button>
     
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script>
         const viewer = document.getElementById('ar-viewer');
-        const button = document.getElementById('shutter-button');
+        const shutterButton = document.getElementById('shutter-button');
+        const recordButton = document.getElementById('record-button');
+        const stopButton = document.getElementById('stop-button');
+        let mediaRecorder;
+        let chunks = [];
 
-        button.addEventListener('click', () => {
+        shutterButton.addEventListener('click', () => {
             viewer.toDataURL('image/png').then(dataUrl => {
                 const a = document.createElement('a');
                 a.href = dataUrl;
                 a.download = 'snapshot.png';
                 a.click();
             });
+        });
+
+        recordButton.addEventListener('click', () => {
+            const stream = viewer.captureStream();
+            mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+            mediaRecorder.ondataavailable = event => {
+                if (event.data.size > 0) {
+                    chunks.push(event.data);
+                }
+            };
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                chunks = [];
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'recording.webm';
+                a.click();
+                URL.revokeObjectURL(url);
+            };
+            mediaRecorder.start();
+            recordButton.disabled = true;
+            stopButton.disabled = false;
+        });
+
+        stopButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            recordButton.disabled = false;
+            stopButton.disabled = true;
         });
     </script>
 </body>
