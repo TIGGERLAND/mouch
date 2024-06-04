@@ -38,7 +38,7 @@ h1 {
 #model-viewer-container {
     width: 100%;
     max-width: 100%;
-    display: flex;
+    display: none; /* Initially hidden */
     flex-direction: column;
     align-items: center;
 }
@@ -70,4 +70,8 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+#view-ar-button {
+    margin-top: 20px;
 }
