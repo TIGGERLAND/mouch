@@ -14,6 +14,7 @@
         <h1>AR Model Viewer <img src="mouch.png" alt="mouch image" id="mouch-image"></h1>
         <div id="model-viewer-container">
             <model-viewer 
+                id="model-viewer-1"
                 src="mouch.glb"
                 ios-src="mouch.usdz"
                 alt="A 3D model of a mouch"
@@ -23,10 +24,10 @@
                 auto-rotate
                 camera-controls>
             </model-viewer>
-            <div class="controls">
-                <button id="add-model">Add Model</button>
-                <button id="remove-model">Remove Model</button>
-            </div>
+        </div>
+        <div class="controls">
+            <button id="add-model">Add Model</button>
+            <button id="remove-model">Remove Model</button>
         </div>
     </div>
     <script src="script.js"></script>
