@@ -2,7 +2,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const addModelButton = document.getElementById('add-model');
     const removeModelButton = document.getElementById('remove-model');
     const modelViewerContainer = document.getElementById('model-viewer-container');
+    const viewARButton = document.createElement('button');
+    viewARButton.id = 'view-ar-button';
+    viewARButton.innerText = 'View AR Models';
+    document.querySelector('.container').appendChild(viewARButton);
     let modelCount = 1;
+
+    viewARButton.addEventListener('click', () => {
+        modelViewerContainer.style.display = 'flex';
+        viewARButton.style.display = 'none';
+    });
 
     addModelButton.addEventListener('click', () => {
         modelCount++;
