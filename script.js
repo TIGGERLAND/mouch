@@ -1,10 +1,13 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", function() {
     const addModelButton = document.getElementById('add-model');
     const removeModelButton = document.getElementById('remove-model');
     const modelViewerContainer = document.getElementById('model-viewer-container');
+    let modelCount = 1;
 
     addModelButton.addEventListener('click', () => {
+        modelCount++;
         const modelViewer = document.createElement('model-viewer');
+        modelViewer.setAttribute('id', `model-viewer-${modelCount}`);
         modelViewer.setAttribute('src', 'mouch.glb');
         modelViewer.setAttribute('ios-src', 'mouch.usdz');
         modelViewer.setAttribute('alt', 'A 3D model of a mouch');
@@ -13,13 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
         modelViewer.setAttribute('environment-image', 'neutral');
         modelViewer.setAttribute('auto-rotate', '');
         modelViewer.setAttribute('camera-controls', '');
-        modelViewerContainer.insertBefore(modelViewer, modelViewerContainer.querySelector('.controls'));
+        modelViewerContainer.appendChild(modelViewer);
     });
 
     removeModelButton.addEventListener('click', () => {
-        const modelViewers = modelViewerContainer.getElementsByTagName('model-viewer');
-        if (modelViewers.length > 1) {  // Keep at least one model viewer
-            modelViewerContainer.removeChild(modelViewers[modelViewers.length - 2]);
+        if (modelCount > 1) {
+            const modelViewer = document.getElementById(`model-viewer-${modelCount}`);
+            modelViewerContainer.removeChild(modelViewer);
+            modelCount--;
         }
     });
 });
