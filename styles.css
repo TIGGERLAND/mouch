@@ -15,7 +15,7 @@ body {
     justify-content: center;
     width: 100%;
     max-width: 100%;
-    height: 5cm; /* Adjust to be 5cm tall */
+    height: auto; /* Adjust to fit content */
 }
 
 h1 {
@@ -45,12 +45,14 @@ h1 {
 
 model-viewer {
     width: 100%;
-    height: 70%; /* Adjust the height to fit within the 5cm container */
+    height: 70%; /* Adjust the height to fit within the container */
     max-width: 100%;
 }
 
 .controls {
     margin-top: 10px;
+    display: flex;
+    gap: 10px;
 }
 
 button {
@@ -62,7 +64,6 @@ button {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
     cursor: pointer;
     border-radius: 8px;
 }
