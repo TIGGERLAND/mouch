@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
         modelViewer.setAttribute('environment-image', 'neutral');
         modelViewer.setAttribute('auto-rotate', '');
         modelViewer.setAttribute('camera-controls', '');
-        modelViewerContainer.appendChild(modelViewer);
+        modelViewerContainer.insertBefore(modelViewer, modelViewerContainer.querySelector('.controls'));
     });
 
     removeModelButton.addEventListener('click', () => {
         const modelViewers = modelViewerContainer.getElementsByTagName('model-viewer');
-        if (modelViewers.length > 0) {
-            modelViewerContainer.removeChild(modelViewers[modelViewers.length - 1]);
+        if (modelViewers.length > 1) {  // Keep at least one model viewer
+            modelViewerContainer.removeChild(modelViewers[modelViewers.length - 2]);
         }
     });
 });
