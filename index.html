@@ -10,10 +10,11 @@
     <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 </head>
 <body>
-    <div class="header">
+    <div id="header" class="header">
         <h1>AR Model Viewer <img src="mouch.png" alt="mouch image" id="mouch-image"></h1>
+        <button id="view-ar-button">View AR Models</button>
     </div>
-    <div id="model-viewer-container" class="viewer-container">
+    <div id="model-viewer-container" class="viewer-container" style="display: none;">
         <model-viewer 
             id="model-viewer-1"
             src="mouch.glb"
