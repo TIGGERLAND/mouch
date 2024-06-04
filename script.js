@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
         modelViewer.setAttribute('environment-image', 'neutral');
         modelViewer.setAttribute('auto-rotate', '');
         modelViewer.setAttribute('camera-controls', '');
-        modelViewerContainer.appendChild(modelViewer);
+        modelViewerContainer.insertBefore(modelViewer, modelViewerContainer.querySelector('.controls'));
     });
 
     removeModelButton.addEventListener('click', () => {
