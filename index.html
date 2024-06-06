@@ -10,13 +10,9 @@
     <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 </head>
 <body>
-    <div id="header" class="header">
+    <div class="container">
         <h1>AR Model Viewer <img src="mouch.png" alt="mouch image" id="mouch-image"></h1>
-        <button id="view-ar-button">View AR Models</button>
-    </div>
-    <div id="model-viewer-container" class="viewer-container" style="display: none;">
         <model-viewer 
-            id="model-viewer-1"
             src="mouch.glb"
             ios-src="mouch.usdz"
             alt="A 3D model of a mouch"
@@ -26,11 +22,6 @@
             auto-rotate
             camera-controls>
         </model-viewer>
-        <div class="controls">
-            <button id="add-model">Add Model</button>
-            <button id="remove-model">Remove Model</button>
-        </div>
     </div>
-    <script src="script.js"></script>
 </body>
 </html>
