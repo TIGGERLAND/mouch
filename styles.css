@@ -1,21 +1,21 @@
 body {
     background-color: #836EF9;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100vh;
     margin: 0;
     padding: 0;
 }
 
-.header {
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    text-align: center;
+    max-width: 100%;
+    height: 5cm; /* Adjust to be 5cm tall */
 }
 
 h1 {
@@ -23,53 +23,17 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 24px; /* Adjust the size as needed */
 }
 
 #mouch-image {
     width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 3cm;
-    margin-left: 8px;
-}
-
-.viewer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
+    height: 24px; /* Adjust the height for better visibility */
+    margin-left: 8px; /* Space between text and image */
 }
 
 model-viewer {
     width: 100%;
-    height: 60%;
-}
-
-.controls {
-    margin-top: 10px;
-    display: flex;
-    gap: 10px;
-}
-
-button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-#view-ar-button {
-    margin-top: 20px;
+    height: 70%; /* Adjust the height to fit within the 5cm container */
+    max-width: 50%;
 }
